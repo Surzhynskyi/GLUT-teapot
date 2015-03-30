@@ -22,7 +22,6 @@ void drawInfoScreen() {
 }
 
 void draw(void) {
-    //glutTimerFunc(100, draw(void), 0);
     cout << "Redraw.\n";
 
     // Black background
