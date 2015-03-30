@@ -9,17 +9,6 @@ using namespace std;
 
 int currentDisplayObject = TEAPOT;
 
-//void init() {
-//    glClearColor(0, 0, 0, 0); // moved this line to be in the init function
-//    //glDisable(GL_DEPTH_TEST);
-//
-//    // next four lines are new
-//    glMatrixMode(GL_PROJECTION);
-//    glLoadIdentity();
-//    glOrtho(0.0, 600-1, 600-1, 0, -1.0, 1.0);
-//    glMatrixMode(GL_MODELVIEW);
-//}
-
 void drawTeapot() {
     glFlush();
     glClear(GL_COLOR_BUFFER_BIT);
@@ -51,20 +40,6 @@ void draw(void) {
 
 void windowStatusHandler(int windowState) {
     cout << "windowStatusHandler - window status! " << windowState << "\n";
-    // Код ниже относится к OpenGLUT и сюда не подходит. Нужно найти адекватные коды статусов GLUT
-    //switch (windowState) {
-    //    case GLUT_VISIBLE:
-    //        cout << "windowStatusHandler - window is visible now!\n";
-    //        break;
-    //    case GLUT_VISIBLE:
-    //        cout << "windowStatusHandler - window is visible now!\n";
-    //        break;
-    //    case GLUT_VISIBLE:
-    //        cout << "windowStatusHandler - window is visible now!\n";
-    //        break;
-    //    default:
-    //        cout << "windowStatusHandler - unknown status!\n";
-    //}
     draw();
 }
 
@@ -76,8 +51,6 @@ void menuItemClickHandler(int menuItem) {
     glutPostRedisplay();
 }
 
-//Main program
-
 int main(int argc, char **argv) {
 
     cout << "Initializating...\n";
@@ -88,7 +61,6 @@ int main(int argc, char **argv) {
     /    -RGB color model + Alpha Channel = GLUT_RGBA
     */
     //glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
-    // Поменять GLUT_SINGLE на GLUT_DOUBLE (погуглить как решить баг с отсутствием перерисовки)
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
     //Configure Window Postion
@@ -99,8 +71,6 @@ int main(int argc, char **argv) {
 
     // Код ниже относится к OpenGLUT и сюда не подходит. Нужно найти адекватные коды статусов GLUT//Create Wind
     glutCreateWindow("Teapot");
-
-    //init();
 
     //Call to the drawing function
     glutDisplayFunc(draw);
@@ -113,9 +83,6 @@ int main(int argc, char **argv) {
 
     glutWindowStatusFunc(windowStatusHandler);
 
-    //glutTimerFunc(100, My_timer_event, 1);
-
-    // Loop require by OpenGL
     glutMainLoop();
 
     return 0;
