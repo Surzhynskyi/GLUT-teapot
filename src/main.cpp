@@ -1,3 +1,8 @@
+/**
+ * GLUT Teapot
+ * A simple GLUT program that draws a teapot and an info screen.
+ */
+
 #include <iostream>
 #include <GL/glut.h>
 
@@ -9,18 +14,27 @@ using namespace std;
 
 int currentDisplayObject = TEAPOT;
 
+/**
+ * Draws teapot
+ */
 void drawTeapot() {
     glFlush();
     glClear(GL_COLOR_BUFFER_BIT);
     glutSolidTeapot(0.5);
 }
 
+/**
+ * Draws info screen
+ */
 void drawInfoScreen() {
     glFlush();
     glClear(GL_COLOR_BUFFER_BIT);
     glutSolidTeapot(2.0);
 }
 
+/**
+ * GLUT redraw callback
+ */
 void draw(void) {
     cout << "Redraw.\n";
 
@@ -37,11 +51,22 @@ void draw(void) {
     glutSwapBuffers();
 }
 
+/**
+ * GLUT window status callback
+ * This function is executed when different window related events occur:
+ *   - window opened
+ *   - minimize/maximize
+ *   - resize
+ */
 void windowStatusHandler(int windowState) {
     cout << "windowStatusHandler - window status! " << windowState << "\n";
     draw();
 }
 
+/**
+ * Menu item click callback
+ * This function is executed when user clicks on a context menu item
+ */
 void menuItemClickHandler(int menuItem) {
     if (menuItem == QUIT) {
         exit(0);
@@ -50,37 +75,25 @@ void menuItemClickHandler(int menuItem) {
     glutPostRedisplay();
 }
 
+/**
+ * Main function. Program execution starts here.
+ */
 int main(int argc, char **argv) {
-
     cout << "Initializating...\n";
-
     glutInit(&argc, argv);
-
-    /*Setting up  The Display
-    /    -RGB color model + Alpha Channel = GLUT_RGBA
-    */
-    //glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-
-    //Configure Window Postion
     glutInitWindowPosition(50, 25);
-
-    //Configure Window Size
     glutInitWindowSize(600, 600);
-
-    // Код ниже относится к OpenGLUT и сюда не подходит. Нужно найти адекватные коды статусов GLUT//Create Wind
     glutCreateWindow("Teapot");
-
-    //Call to the drawing function
-    glutDisplayFunc(draw);
-
+    glutDisplayFunc(draw); // Drawing function
+    glutWindowStatusFunc(windowStatusHandler); // Used to redraw when window status is changed:
+                                               // window shown, resize, etc.
+    // Context menu
     glutCreateMenu(menuItemClickHandler);
     glutAddMenuEntry("Teapot", TEAPOT);
     glutAddMenuEntry("Developer info", INFO_SCREEN);
     glutAddMenuEntry("Quit", QUIT);
     glutAttachMenu(GLUT_RIGHT_BUTTON);
-
-    glutWindowStatusFunc(windowStatusHandler);
 
     glutMainLoop();
 
