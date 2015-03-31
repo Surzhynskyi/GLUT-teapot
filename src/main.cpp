@@ -45,15 +45,34 @@ void decreaseTeapotSize() {
 /**
  * Draws teapot
  */
-void drawTeapot() {
+void addTeapotToScene() {
     glutSolidTeapot(teapotSize);
 }
 
 /**
  * Draws info screen
  */
-void drawInfoScreen() {
+void addInfoToScene() {
     //TODO: Write some text on the screen
+}
+
+/**
+ * Adds light
+ */
+void addLightToScene() {
+    GLfloat position[] = {0.0, 0.0, 1.5, 1.0};
+
+    glPushMatrix();
+    glRotated((GLdouble) 180, 0.0, 1.0, 0.0);
+    glRotated(0.0, 1.0, 0.0, 0.0);
+    glLightfv(GL_LIGHT0, GL_POSITION, position);
+
+    glTranslated(0.0, 0.0, 1.5);
+    glDisable(GL_LIGHTING);
+    glColor3f(0.0, 1.0, 1.0);
+    glutWireCube(0.1);
+    glEnable(GL_LIGHTING);
+    glPopMatrix();
 }
 
 /**
@@ -67,10 +86,12 @@ void draw(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
+    addLightToScene();
+
     if (currentDisplayObject == TEAPOT) {
-        drawTeapot();
+        addTeapotToScene();
     } else {
-        drawInfoScreen();
+        addInfoToScene();
     }
     //glFlush();
     glutSwapBuffers();
@@ -100,6 +121,10 @@ void menuItemClickHandler(int menuItem) {
     glutPostRedisplay();
 }
 
+/**
+ * Callback for glutKeyboardFunc
+ * This function will be called each time user press a keyboard button
+ */
 void keyPressHandler(unsigned char key, int xmouse, int ymouse) {
     (void)xmouse;
     (void)ymouse;
@@ -140,6 +165,13 @@ int main(int argc, char **argv) {
     glutInitWindowPosition(50, 25);
     glutInitWindowSize(600, 600);
     glutCreateWindow("Teapot");
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+
+    glDepthFunc(GL_LESS);
+    glEnable(GL_DEPTH_TEST);
+
     glutDisplayFunc(draw); // Set the redraw function
     glutWindowStatusFunc(windowStatusHandler); // Used to redraw when window status is changed:
                                                // window shown, resize, etc.
