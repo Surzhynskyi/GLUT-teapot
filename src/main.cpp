@@ -20,6 +20,13 @@ using namespace std;
 int currentDisplayObject = TEAPOT;
 float teapotSize = 0.4;
 
+// Rotating the scene with mouse
+bool isMouseDown = false;
+float xRotate = 0.0f;
+float yRotate = 0.0f;
+int lastMouseXPosition;
+int lastMouseYPosition;
+
 /**
  * Increase the size of the teapot
  */
@@ -54,6 +61,9 @@ void addTeapotToScene() {
  */
 void addInfoToScene() {
     //TODO: Write some text on the screen
+    glRasterPos2i(100, 120);
+    glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+//    glutStrokeString(GLUT_BITMAP_HELVETICA_18, "text to render");
 }
 
 /**
@@ -87,6 +97,9 @@ void draw(void) {
     glLoadIdentity();
 
     addLightToScene();
+
+    glRotatef(xRotate, 0.0f, 1.0f, 0.0f);
+    glRotatef(yRotate, 1.0f, 0.0f, 0.0f);
 
     if (currentDisplayObject == TEAPOT) {
         addTeapotToScene();
@@ -156,6 +169,38 @@ void keyPressHandler(unsigned char key, int xmouse, int ymouse) {
 }
 
 /**
+ * Callback for glutMotionFunc
+ * This function will be called each time user the mouse cursor position
+ */
+void mouseMoveHandler(int x, int y) {
+    if (!isMouseDown) {
+        return;
+    }
+
+    xRotate += lastMouseXPosition - x;
+    yRotate += lastMouseYPosition - y;
+    lastMouseXPosition = x;
+    lastMouseYPosition = y;
+
+    glutPostRedisplay();
+}
+
+/**
+ * Callback for glutMouseFunc
+ * This function will be called each time user changes a mouse button state (hold down, release)
+ */
+void mouseButtonActionHandler(int button, int state, int x, int y) {
+    if (button != GLUT_LEFT_BUTTON || state != GLUT_DOWN) {
+        isMouseDown = false;
+        return;
+    }
+
+    isMouseDown = true;
+    lastMouseXPosition = x;
+    lastMouseYPosition = y;
+}
+
+/**
  * Main function. Program execution starts here.
  */
 int main(int argc, char **argv) {
@@ -176,6 +221,10 @@ int main(int argc, char **argv) {
     glutWindowStatusFunc(windowStatusHandler); // Used to redraw when window status is changed:
                                                // window shown, resize, etc.
     glutKeyboardFunc(keyPressHandler);
+
+    // Rotating the scene with mouse
+    glutMouseFunc(mouseButtonActionHandler);
+    glutMotionFunc(mouseMoveHandler);
 
     // Context menu
     glutCreateMenu(menuItemClickHandler);
