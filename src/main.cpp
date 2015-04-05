@@ -221,7 +221,7 @@ void keyPressHandler(unsigned char key, int xmouse, int ymouse) {
 
 /**
  * Callback for glutMotionFunc
- * This function will be called each time user the mouse cursor position
+ * This function will be called each time user change the mouse cursor position
  */
 void mouseMoveHandler(int x, int y) {
     if (!isMouseDown) {
