@@ -52,13 +52,6 @@ void decreaseTeapotSize() {
 }
 
 /**
- * Draws teapot
- */
-void addTeapotToScene() {
-    glutSolidTeapot(teapotSize);
-}
-
-/**
  * A function wrapper for printing text on the screen using only one line of code
  */
 void output(GLfloat x, GLfloat y, const char *format,...) {
@@ -77,6 +70,29 @@ void output(GLfloat x, GLfloat y, const char *format,...) {
 }
 
 /**
+ * Draws teapot
+ */
+void addTeapotToScene() {
+    // Hint text
+    glPushMatrix();
+    glPushAttrib(GL_ENABLE_BIT);
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_LIGHTING);
+    gluOrtho2D(0, 3000, 0, 3000);
+    glMatrixMode(GL_MODELVIEW);
+    output(1080, 2800, "GLUT Teapot");
+    output(80, 250, " hold left mouse button to rotate teapot");
+    output(80, 100, "    press 'b' or 's' key to scale");
+    glPopAttrib();
+    glPopMatrix();
+
+    glRotatef(xRotate, 0.0f, 1.0f, 0.0f);
+    glRotatef(yRotate, 1.0f, 0.0f, 0.0f);
+    // Teapot
+    glutSolidTeapot(teapotSize);
+}
+
+/**
  * Draws info screen
  */
 void addInfoToScene() {
@@ -87,7 +103,7 @@ void addInfoToScene() {
     gluOrtho2D(0, 3000, 0, 3000);
     glMatrixMode(GL_MODELVIEW);
 
-    output(80, 2800, "GLUT Teapot");
+    output(1080, 2800, "GLUT Teapot");
     output(80, 2500, "Developer:");
     output(80, 2350, "Andrew Surzhynskyi");
     output(80, 2050, "Task text:");
@@ -137,8 +153,6 @@ void draw(void) {
     addLightToScene();
 
     if (currentDisplayObject == TEAPOT) {
-        glRotatef(xRotate, 0.0f, 1.0f, 0.0f);
-        glRotatef(yRotate, 1.0f, 0.0f, 0.0f);
         addTeapotToScene();
     } else {
         addInfoToScene();
