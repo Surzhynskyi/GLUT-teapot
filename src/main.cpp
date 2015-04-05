@@ -12,14 +12,15 @@
 #define QUIT 2
 
 // Teapot size/scale settings
+#define INITIAL_TEAPOT_SIZE 0.4
 #define MIN_TEAPOT_SIZE 0.05
 #define MAX_TEAPOT_SIZE 0.8
 #define TEAPOT_SCALE_SPEED 0.025;
 
 using namespace std;
 
-int currentDisplayObject = TEAPOT;
-float teapotSize = 0.4;
+int currentDisplayObject = TEAPOT;      // current screen index saved here
+float teapotSize = INITIAL_TEAPOT_SIZE; // current teapot size
 
 // Rotating the scene with mouse
 bool isMouseDown = false;
@@ -57,6 +58,9 @@ void addTeapotToScene() {
     glutSolidTeapot(teapotSize);
 }
 
+/**
+ * A function wrapper for printing text on the screen using only one line of code
+ */
 void output(GLfloat x, GLfloat y, const char *format,...) {
     va_list args;
     char buffer[200], *p;
@@ -139,7 +143,7 @@ void draw(void) {
     } else {
         addInfoToScene();
     }
-    //glFlush();
+
     glutSwapBuffers();
 }
 
