@@ -3,6 +3,16 @@
 ### Libraries required to compile the program (on Ubuntu linux):
     sudo apt-get install libxmu-dev libxi-dev
 
+### Program screenshots
+
+Main screen:
+
+![Main screen](readme_images/main_screen.png)
+
+Info screen:
+
+![info screen](readme_images/info_screen.png)
+
 ### Task description (English):
 
 Write a program in C++ language (using functions of a glut.h library) that allow user to scale a figure (teapot) via
