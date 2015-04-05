@@ -3,6 +3,7 @@
  * A simple GLUT program that draws a teapot and an info screen.
  */
 #include <iostream>
+#include <stdarg.h>
 #include <GL/glut.h>
 
 // Context menu indexes
@@ -56,14 +57,47 @@ void addTeapotToScene() {
     glutSolidTeapot(teapotSize);
 }
 
+void output(GLfloat x, GLfloat y, const char *format,...) {
+    va_list args;
+    char buffer[200], *p;
+
+    va_start(args, format);
+    vsprintf(buffer, format, args);
+    va_end(args);
+    glPushMatrix();
+    glTranslatef(x, y, 0);
+    for (p = buffer; *p; p++) {
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, *p);
+    }
+    glPopMatrix();
+}
+
 /**
  * Draws info screen
  */
 void addInfoToScene() {
-    //TODO: Write some text on the screen
-    glRasterPos2i(100, 120);
-    glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
-//    glutStrokeString(GLUT_BITMAP_HELVETICA_18, "text to render");
+    glPushMatrix();
+    glPushAttrib(GL_ENABLE_BIT);
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_LIGHTING);
+    gluOrtho2D(0, 3000, 0, 3000);
+    glMatrixMode(GL_MODELVIEW);
+
+    output(80, 2800, "GLUT Teapot");
+    output(80, 2500, "Developer:");
+    output(80, 2350, "Andrew Surzhynskyi");
+    output(80, 2050, "Task text:");
+    output(80, 1900, "Write a program in C++ language (using");
+    output(80, 1750, "functions of a glut.h library) that allow");
+    output(80, 1600, "user to scale a figure (teapot) via");
+    output(80, 1450, "pressing 'b' and 's' keys. Provide the");
+    output(80, 1300, "user with necessary information");
+    output(80, 1150, "(developers surnames and current task),");
+    output(80, 1000, "exit the program upon pressing the Escape");
+    output(80, 850,  "key.");
+
+    glPopAttrib();
+    glPopMatrix();
 }
 
 /**
@@ -98,10 +132,9 @@ void draw(void) {
 
     addLightToScene();
 
-    glRotatef(xRotate, 0.0f, 1.0f, 0.0f);
-    glRotatef(yRotate, 1.0f, 0.0f, 0.0f);
-
     if (currentDisplayObject == TEAPOT) {
+        glRotatef(xRotate, 0.0f, 1.0f, 0.0f);
+        glRotatef(yRotate, 1.0f, 0.0f, 0.0f);
         addTeapotToScene();
     } else {
         addInfoToScene();
@@ -190,7 +223,7 @@ void mouseMoveHandler(int x, int y) {
  * This function will be called each time user changes a mouse button state (hold down, release)
  */
 void mouseButtonActionHandler(int button, int state, int x, int y) {
-    if (button != GLUT_LEFT_BUTTON || state != GLUT_DOWN) {
+    if (button != GLUT_LEFT_BUTTON || state != GLUT_DOWN || currentDisplayObject != TEAPOT) {
         isMouseDown = false;
         return;
     }
