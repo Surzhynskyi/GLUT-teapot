@@ -14,7 +14,7 @@
 // Teapot size/scale settings
 #define INITIAL_TEAPOT_SIZE 0.4
 #define MIN_TEAPOT_SIZE 0.05
-#define MAX_TEAPOT_SIZE 0.8
+#define MAX_TEAPOT_SIZE 0.625
 #define TEAPOT_SCALE_SPEED 0.025;
 
 using namespace std;
@@ -121,25 +121,6 @@ void addInfoToScene() {
 }
 
 /**
- * Adds light
- */
-void addLightToScene() {
-    GLfloat position[] = {0.0, 0.0, 1.5, 1.0};
-
-    glPushMatrix();
-    glRotated((GLdouble) 180, 0.0, 1.0, 0.0);
-    glRotated(0.0, 1.0, 0.0, 0.0);
-    glLightfv(GL_LIGHT0, GL_POSITION, position);
-
-    glTranslated(0.0, 0.0, 1.5);
-    glDisable(GL_LIGHTING);
-    glColor3f(0.0, 1.0, 1.0);
-    glutWireCube(0.1);
-    glEnable(GL_LIGHTING);
-    glPopMatrix();
-}
-
-/**
  * GLUT redraw callback
  */
 void draw(void) {
@@ -150,7 +131,9 @@ void draw(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    addLightToScene();
+    // Add light
+    GLfloat position[] = {2.0f, 2.0f, -2.5f, 1.0f};
+    glLightfv(GL_LIGHT0, GL_POSITION, position);
 
     if (currentDisplayObject == TEAPOT) {
         addTeapotToScene();
