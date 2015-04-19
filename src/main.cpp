@@ -73,7 +73,7 @@ void output(GLfloat x, GLfloat y, const char *format,...) {
  * Draws teapot
  */
 void addTeapotToScene() {
-    // Hint text
+    // Header and hint text
     glPushMatrix();
     glPushAttrib(GL_ENABLE_BIT);
     glDisable(GL_DEPTH_TEST);
@@ -86,8 +86,10 @@ void addTeapotToScene() {
     glPopAttrib();
     glPopMatrix();
 
+    // Rotate teapot
     glRotatef(xRotate, 0.0f, 1.0f, 0.0f);
     glRotatef(yRotate, 1.0f, 0.0f, 0.0f);
+
     // Teapot
     glutSolidTeapot(teapotSize);
 }
