@@ -174,9 +174,10 @@ void menuItemClickHandler(int menuItem) {
  * Callback for glutKeyboardFunc
  * This function will be called each time user press a keyboard button
  */
-void keyPressHandler(unsigned char key, int xmouse, int ymouse) {
-    (void)xmouse;
-    (void)ymouse;
+void keyPressHandler(unsigned char key, int mousePositionX, int mousePositionY) {
+    (void)mousePositionX;
+    (void)mousePositionY;
+
     switch (key) {
         case 27: // Escape key
             cout << "Escape pressed. Exiting...\n";
