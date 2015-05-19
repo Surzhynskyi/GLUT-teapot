@@ -1,7 +1,7 @@
 # GLUT Teapot
 
 ### Libraries required to compile the program (on Ubuntu linux):
-    sudo apt-get install libxmu-dev libxi-dev
+    sudo apt-get install freeglut3-dev libxmu-dev libxi-dev
 
 ### Program screenshots
 
